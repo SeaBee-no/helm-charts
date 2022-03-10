@@ -15,22 +15,4 @@ spec:
   - name: https
     port: 443
     protocol: TCP
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: geonode
-  annotations:
-    kubernetes.io/ingress.class: nginx
-spec:
-  rules:
-  - host: geonode.t.niva.no
-    http:
-      paths:
-      - pathType: Prefix
-        path: /
-        backend:
-          service:    
-            name: seabee-geonode
-            port:
-              name: www
+
