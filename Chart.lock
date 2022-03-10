@@ -1,0 +1,6 @@
+dependencies:
+- name: geonode
+  repository: https://one-acre-fund.github.io/oaf-public-charts
+  version: 0.1.13
+digest: sha256:a46bc5b83b0995b70ede37f23b9b03a24e372ead0f47940c9ede177b3cab1f55
+generated: "2022-03-10T08:14:25.309616998+01:00"
