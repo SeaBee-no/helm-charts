@@ -4,7 +4,7 @@ Inital test of geonode setup on kubernetes. This chart uses the [One Acre Found 
 
 ``` bash
 helm dependency update
-helm install --namespace geonode seabee .
+helm install --namespace geonode -f my-values.yaml seabee .
 ```
 
 # Notes
