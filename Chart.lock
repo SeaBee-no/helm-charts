@@ -1,6 +1,9 @@
 dependencies:
-- name: geonode
-  repository: https://one-acre-fund.github.io/oaf-public-charts
-  version: 0.1.13
-digest: sha256:a46bc5b83b0995b70ede37f23b9b03a24e372ead0f47940c9ede177b3cab1f55
-generated: "2022-03-10T08:14:25.309616998+01:00"
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.1.4
+- name: rabbitmq
+  repository: https://charts.bitnami.com/bitnami
+  version: 8.6.4
+digest: sha256:ceddcd3499d613ee83cd1bc843517ef09d1021e3f32c1f7fe620df86e267421d
+generated: "2021-02-09T10:06:07.7240304+03:00"
