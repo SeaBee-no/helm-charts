@@ -12,7 +12,8 @@ helm install --namespace geonode -f my-values.yaml seabee .
 - [x] Inital understanding of geonode config
   - Geonode hardcodes a lot of docker-compose dns in the image, this has been the main issue then trying to run it.
 - [ ] rabbitmq deployment for nird
-  - This needs modified rabbitmq deployment, using the PVC defined on nird 
+  - This needs modified rabbitmq deployment, using the PVC defined on nird
+  - Also looks like we can't create KSA as bitnami is doing upstream
 - [x] Figure out chart ingress
 - [ ] tls support
 - [ ] Figure out if geonode should have access to any files on minio
