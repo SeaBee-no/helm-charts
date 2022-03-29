@@ -3,18 +3,19 @@ geonode:
     # -- Geonode image name
     name: geonode/geonode
     # -- Geonode image tag
-    tag: "3.1"
-
+    tag: "3.2.x"
   # -- Use this to pass any env to `geonode` container
   # See https://docs.geonode.org/en/master/basic/settings/index.html
   # @default -- Various default values, see `values.yaml`
   extraEnvs:
+    OAUTH2_API_KEY: ""
+    OAUTH2_CLIENT_ID: ""
+    OAUTH2_CLIENT_SECRET: ""
     CLIENT_RESULTS_LIMIT: "25"
     SOCIALACCOUNT_WITH_GEONODE_LOCAL_SINGUP: "False"
     C_FORCE_ROOT: "1"
     # This allows geonode to expose some proxy URLs to whitelisted domains below. 'geoserver' is required to enable printing
     PROXY_ALLOWED_HOSTS: "localhost,django,geonode,geoserver,spatialreference.org,nominatim.openstreetmap.org,dev.openlayers.org"
-
     # Session/Access Control
     LOCKDOWN_GEONODE: "False"
     CORS_ORIGIN_ALLOW_ALL: "True"
@@ -22,7 +23,6 @@ geonode:
     SESSION_EXPIRED_CONTROL_ENABLED: "True"
     DEFAULT_ANONYMOUS_VIEW_PERMISSION: "True"
     DEFAULT_ANONYMOUS_DOWNLOAD_PERMISSION: "True"
-
     # Users Registration
     ACCOUNT_EMAIL_REQUIRED: "True"
     ACCOUNT_APPROVAL_REQUIRED: "False"
@@ -32,15 +32,12 @@ geonode:
     ACCOUNT_EMAIL_CONFIRMATION_REQUIRED: "False"
     ACCOUNT_AUTHENTICATION_METHOD: username_email
     AUTO_ASSIGN_REGISTERED_MEMBERS_TO_REGISTERED_MEMBERS_GROUP_NAME: "True"
-
     # GeoNode APIs
     API_LOCKDOWN: "False"
     TASTYPIE_APIKEY:
-
     IS_FIRST_START: "True"
     FORCE_REINIT: "False"
     ASYNC_SIGNALS: "True"
-
   # -- Same as `extraEnvs` but passed as a secret
   extraSecretEnvs: {}
   # -- Configuration to append to `settings.py`
@@ -56,7 +53,6 @@ geonode:
         # Python 3 fallback
         from urllib.parse import urlparse, urlunparse, urlsplit, urljoin
     from geonode.settings import *
-
     EXTRA_BASE_LAYERS = [
       {
         "type": "tileprovider",
@@ -100,9 +96,7 @@ geonode:
         "visibility": False
       }
     ]
-
     MAPSTORE_BASELAYERS =  EXTRA_BASE_LAYERS + MAPSTORE_BASELAYERS
-
   # -- Same as `extraConf` but can be overridden separately
   # @default -- Some OAuth settings
   extraConf2: |
@@ -116,13 +110,10 @@ geonode:
         'access_type': 'online',
       }
     }
-
     if os.getenv('AUTH_DOMAIN'):
       SOCIALACCOUNT_PROVIDERS['google']['AUTH_PARAMS']['hd'] = os.getenv('AUTH_DOMAIN')
-
     INSTALLED_APPS += ('allauth.socialaccount.providers.google',)
     SOCIALACCOUNT_PROFILE_EXTRACTORS['google'] = "geonode.people.profileextractors.OpenIDExtractor"
-
 geoserver:
   image:
     # -- `geoserver` image name
@@ -135,16 +126,15 @@ geoserver:
     - 1=PROJCS["TM_Rwanda",GEOGCS["GCS_ITRF_2005",DATUM["D_ITRF_2005",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",500000.0],PARAMETER["False_Northing",5000000.0],PARAMETER["Central_Meridian",30.0],PARAMETER["Scale_Factor",0.9999],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]
   # -- Same as `customEPSGs` but can be overridden separately
   extraCustomEPSGs: []
-
 general:
   # -- Public domain used to access the application
-  externalDomain: example.com
+  externalDomain: geonode.t.niva.no
   # -- Public-facing protocol used to access the application
-  externalScheme: https
+  externalScheme: http
   # -- Public-facing port used to access the application
-  externalPort: 443
+  externalPort: 80
   # -- activates various debug logs
-  debug: false
+  debug: true
   superUser:
     # -- Password for initial `admin` user - This user will have access to geonode UI but also the built-in Django admin interface (/admin)
     password: geonode
@@ -153,10 +143,9 @@ general:
   # -- Support email visible to users
   supportEmail: support@example.com
   # -- Volume storage size to request
-  storageSize: 10Gi
+  storageSize: 1Gi
   # -- `ClusterIP` / `LoadBalancer` / `NodePort`
   serviceType: ClusterIP
-
 smtp:
   # -- SMTP host name
   host: smtp.gmail.com
@@ -167,33 +156,23 @@ smtp:
   # -- SMTP user
   user:
   # -- SMTP password
-  password: "changeme"
+  password: "changemvsdvfve"
   # -- SMTP "from" address
   from:
-
 global:
   # -- Will be used by this and all subcharts for all volumes
   storageClass: standard
-
 ingress:
   # -- Ingress enabled?
-  enabled: false
+  enabled: true
   # -- Ingress annotations table
   annotations:
-    {}
-    # kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  # -- Ingress hosts/paths list
-  hosts:
-    - host: chart-example.local
-      paths: []
-
-  # -- Ingress tls settings
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
 postgresql:
   # -- Install Postgres? See See https://artifacthub.io/packages/helm/bitnami/postgresql for docs on all Postgres values
   enabled: true
@@ -202,21 +181,20 @@ postgresql:
   # -- Postgres database AND user name for geoserver
   geodataDb: geonode_data
   # -- Application password for both geonodeDb and geodataDb users
-  password: Uxu3UhxFmK
-
+  password: Uxu3UhxFmKfsdmfgpkseg
   # TODO: support external db
   # For now we only support a db installed with a subchart
-
   # Standard postgres chart values
   # -- Password for 'postgres' user
-  postgresqlPassword: admin
+  postgresqlPassword: adminnfsdklnfgklsd
   # -- Name of secret containing Postgres init script - will only be run on first deployment! Will be evaluated as a template
   initdbScriptsSecret: "{{ .Release.Name }}-postgres-init"
-
 # -- RbbitMQ Settings - see https://artifacthub.io/packages/helm/bitnami/rabbitmq
 rabbitmq:
+  rbac:
+    create: false
   auth:
     username: user
     # Override these!
-    password: 3asgDlgwN7
-    erlangCookie: jixYBsiZ9RivaLXC02pTwGjvIo0nHtVu
+    password: 3asgDlgwN7sfsdfsdf
+    erlangCookie: jixYBsiZaLXC02pTwGjvIo0nHtVujfyjkyt56354E
