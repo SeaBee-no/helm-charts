@@ -1,58 +1,14 @@
-# Source: geonode/charts/rabbitmq/templates/svc-headless.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: seabee-rabbitmq-headless
-  namespace: {{ .Release.Namespace | quote }}
-spec:
-  clusterIP: None
-  ports:
-    - name: epmd
-      port: 4369
-      targetPort: epmd
-    - name: amqp
-      port: 5672
-      targetPort: amqp
-    - name: dist
-      port: 25672
-      targetPort: dist
-    - name: http-stats
-      port: 15672
-      targetPort: stats
-  selector: 
-    app.kubernetes.io/name: rabbitmq
-    app.kubernetes.io/instance: seabee
----
-# Source: geonode/charts/rabbitmq/templates/svc.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: seabee-rabbitmq
   namespace: {{ .Release.Namespace | quote }}
-  labels:
-    app.kubernetes.io/name: rabbitmq
-    helm.sh/chart: rabbitmq-8.6.4
-    app.kubernetes.io/instance: seabee
-    app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
   ports:
     - name: amqp
       port: 5672
       targetPort: amqp
-      nodePort: null
-    - name: epmd
-      port: 4369
-      targetPort: epmd
-      nodePort: null
-    - name: dist
-      port: 25672
-      targetPort: dist
-      nodePort: null
-    - name: http-stats
-      port: 15672
-      targetPort: stats
-      nodePort: null
   selector: 
     app.kubernetes.io/name: rabbitmq
     app.kubernetes.io/instance: seabee

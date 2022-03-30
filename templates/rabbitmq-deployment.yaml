@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-rabbitmq
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rabbitmq
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rabbitmq
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: rabbitmq
+        image: rabbitmq:3.9.3-alpine
+        ports:
+          - name: amqp
+            containerPort: 5672
+        env:
+          - name: RABBITMQ_DEFAULT_USER
+            value: {{ .Values.rabbitmq.auth.user }}
+          - name: RABBITMQ_DEFAULT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-rabbitmq
+                key: rabbitmq-password
+        volumeMounts:
+           - name: configuration
+             mountPath: /etc/rabbitmq
+ 
+      volumes:
+         - name: configuration
+           configMap:
+             name: {{ .Release.Name }}-rabbitmq-config
+             items:
+               - key: rabbitmq.conf
+                 path: rabbitmq.conf
+ 

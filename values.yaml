@@ -194,5 +194,4 @@ rabbitmq:
   auth:
     username: user
     # Override these!
-    password: 3asgDlgwN7sfsdfsdf
-    erlangCookie: jixYBsiZaLXC02pTwGjvIo0nHtVujfyjkyt56354E
+    password: CHANGEME
