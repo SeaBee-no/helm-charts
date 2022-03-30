@@ -3,11 +3,6 @@ kind: StatefulSet
 metadata:
   name: {{ .Release.Name }}-rabbitmq
   namespace: {{ .Release.Namespace }}
-  labels:
-    app.kubernetes.io/name: rabbitmq
-    helm.sh/chart: rabbitmq-8.6.4
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: Helm
 spec:
   serviceName: {{ .Release.Name }}-rabbitmq-headless
   podManagementPolicy: OrderedReady
