@@ -1,3 +1,4 @@
 **/Chart.lock
-charts/*.tgz
+charts/**
+manifest.yaml
 my-values.yaml

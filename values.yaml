@@ -191,8 +191,6 @@ postgresql:
   initdbScriptsSecret: "{{ .Release.Name }}-postgres-init"
 # -- RbbitMQ Settings - see https://artifacthub.io/packages/helm/bitnami/rabbitmq
 rabbitmq:
-  rbac:
-    create: false
   auth:
     username: user
     # Override these!
