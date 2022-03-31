@@ -26,7 +26,13 @@ spec:
         volumeMounts:
            - name: configuration
              mountPath: /etc/rabbitmq
- 
+        resources:
+          requests:
+            cpu: 1024m
+            memory: 2048M
+          limits:
+            cpu: 1024m
+            memory: 2048M
       volumes:
          - name: configuration
            secret:
