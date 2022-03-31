@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: seabee-rabbitmq
+  name: {{ .Release.Name }}-rabbitmq
   namespace: {{ .Release.Namespace | quote }}
 spec:
   type: ClusterIP
