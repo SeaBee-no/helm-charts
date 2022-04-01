@@ -140,6 +140,7 @@ general:
     password: geonode
     # -- Email address for `admin` user
     email: support@example.com
+    # NOTE: GEOSERVER ADMIN password must be changed manually https://docs.geonode.org/en/3.2.x/install/basic/index.html
   # -- Support email visible to users
   supportEmail: support@example.com
   # -- Volume storage size to request
