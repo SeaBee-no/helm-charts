@@ -6,9 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: postgresql
-    helm.sh/chart: postgresql-10.1.4
     app.kubernetes.io/instance: seabee
-    app.kubernetes.io/managed-by: Helm
   annotations:
 spec:
   serviceName: seabee-postgresql-headless
@@ -27,7 +25,6 @@ spec:
         app.kubernetes.io/name: postgresql
         helm.sh/chart: postgresql-10.1.4
         app.kubernetes.io/instance: seabee
-        app.kubernetes.io/managed-by: Helm
         role: primary
     spec:      
       securityContext:
