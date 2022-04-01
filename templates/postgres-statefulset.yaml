@@ -1,0 +1,120 @@
+# Source: geonode/charts/postgresql/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-postgresql
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-10.1.4
+    app.kubernetes.io/instance: seabee
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+spec:
+  serviceName: seabee-postgresql-headless
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgresql
+      app.kubernetes.io/instance: seabee
+      role: primary
+  template:
+    metadata:
+      name: seabee-postgresql
+      labels:
+        app.kubernetes.io/name: postgresql
+        helm.sh/chart: postgresql-10.1.4
+        app.kubernetes.io/instance: seabee
+        app.kubernetes.io/managed-by: Helm
+        role: primary
+    spec:      
+      securityContext:
+        fsGroup: 1001
+      containers:
+        - name: seabee-postgresql
+          image: docker.io/bitnami/postgresql:11.10.0-debian-10-r24
+          imagePullPolicy: "IfNotPresent"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            runAsUser: 1001
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: POSTGRESQL_PORT_NUMBER
+              value: "5432"
+            - name: POSTGRESQL_VOLUME_DIR
+              value: "/bitnami/postgresql"
+            - name: PGDATA
+              value: "/bitnami/postgresql/data"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: seabee-postgresql
+                  key: postgresql-password
+            - name: POSTGRESQL_ENABLE_LDAP
+              value: "no"
+            - name: POSTGRESQL_ENABLE_TLS
+              value: "no"
+            - name: POSTGRESQL_LOG_HOSTNAME
+              value: "false"
+            - name: POSTGRESQL_LOG_CONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_LOG_DISCONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
+              value: "off"
+            - name: POSTGRESQL_CLIENT_MIN_MESSAGES
+              value: "error"
+            - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
+              value: "pgaudit"
+          ports:
+            - name: tcp-postgresql
+              containerPort: 5432
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - -e
+                - |
+                  exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
+                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          volumeMounts:
+            - name: custom-init-scripts-secret
+              mountPath: /docker-entrypoint-initdb.d/secret
+            - name: dshm
+              mountPath: /dev/shm
+      volumes:
+        - name: custom-init-scripts-secret
+          secret:
+            secretName: seabee-postgres-init
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi

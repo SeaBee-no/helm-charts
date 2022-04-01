@@ -1,9 +1,9 @@
 apiVersion: v2
-dependencies:
-- condition: postgresql.enabled
-  name: postgresql
-  repository: https://charts.bitnami.com/bitnami
-  version: ~10.1.2
+#dependencies:
+#- condition: postgresql.enabled
+#  name: postgresql
+#  repository: https://charts.bitnami.com/bitnami
+#  version: ~10.1.2
 #- condition: rabbitmq.enabled
 #  name: rabbitmq
 #  repository: https://charts.bitnami.com/bitnami
