@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   # This pod can NOT be scaled, because it persists local files
+  
   replicas: 1
   strategy:
     # Need to kill previous pods before running new ones to avoid double-attaching volumes...
@@ -121,10 +122,10 @@ spec:
           mountPath: /tmp
         resources:
           requests:
-            memory: 3Gi
+            memory: 2Gi
             cpu: 100m
           limits:
-            memory: 4Gi
+            memory: 2Gi
             cpu: 1000m
         # This one is HORRIBLY SLOW!!!
         # Disabling readiness probe...
@@ -213,7 +214,6 @@ spec:
       # TODO: route logs to console
       - name: geoserver
         image: "{{ .Values.geoserver.image.name }}:{{ .Values.geoserver.image.tag }}"
-        env:
         ports:
         - containerPort: 8080
         env:
@@ -273,7 +273,7 @@ spec:
           failureThreshold: 15
         resources:
           requests:
-            memory: 1Gi
+            memory: 2Gi
             cpu: 100m
           limits:
             memory: 4Gi
@@ -290,8 +290,9 @@ spec:
         configMap:
           name: {{ .Release.Name }}-geonode-conf
       - name: persistence
-        persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-geonode
+        emptyDir: {}
+        #persistentVolumeClaim:
+        #  claimName: {{ .Release.Name }}-geonode
       # Using an emptyDir to cache compiled statics... it will survive container crashes, but not pod restarts
       - name: cache-volume
         emptyDir: {}
