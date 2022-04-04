@@ -13,7 +13,9 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      org.geonode.instance: {{ .Release.Name }}-geonode
+      app.kubernetes.io/name: geonode
+      app.kubernetes.io/instance: {{ .Release.Name }}
+
   template:
     metadata:
       annotations:
@@ -22,7 +24,8 @@ spec:
         checksum/conf2: {{ .Values.geonode.extraConf2 | sha256sum }}
         checksum/nginx: {{ include "nginx_conf" . | sha256sum }}
       labels:
-        org.geonode.instance: {{ .Release.Name }}-geonode
+        app.kubernetes.io/name: geonode
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       # Resolving some hardcoded links...
       hostAliases:

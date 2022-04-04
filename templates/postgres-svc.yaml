@@ -27,7 +27,7 @@ spec:
       targetPort: tcp-postgresql
   selector:
     app.kubernetes.io/name: postgresql
-    app.kubernetes.io/instance: seabee
+    app.kubernetes.io/instance: {{ .Release.Name }}
 ---
 # Source: geonode/charts/postgresql/templates/svc.yaml
 apiVersion: v1
@@ -37,9 +37,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: postgresql
-    helm.sh/chart: postgresql-10.1.4
-    app.kubernetes.io/instance: seabee
-    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: {{ .Release.Name }}
   annotations:
 spec:
   type: ClusterIP
@@ -49,5 +47,5 @@ spec:
       targetPort: tcp-postgresql
   selector:
     app.kubernetes.io/name: postgresql
-    app.kubernetes.io/instance: seabee
+    app.kubernetes.io/instance: {{ .Release.Name }}
     role: primary

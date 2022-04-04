@@ -11,4 +11,4 @@ spec:
       targetPort: amqp
   selector: 
     app.kubernetes.io/name: rabbitmq
-    app.kubernetes.io/instance: seabee
+    app.kubernetes.io/instance: {{ .Release.Name }}

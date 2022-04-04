@@ -20,4 +20,8 @@ spec:
             name: {{ .Release.Name }}-geonode
             port:
               name: www
+  tls:
+  - hosts:
+    - {{ .Values.general.externalDomain }}
+    secretName: {{ .Values.ingress.tls.secretName }}
 {{- end }}
