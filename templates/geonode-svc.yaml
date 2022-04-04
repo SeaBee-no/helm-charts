@@ -6,7 +6,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
-    org.geonode.instance: {{ .Release.Name }}-geonode
+    app.kubernetes.io/name: geonode
+    app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
   - targetPort: 80
     port: 80
