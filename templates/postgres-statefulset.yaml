@@ -110,7 +110,7 @@ spec:
       volumes:
         - name: custom-init-scripts-secret
           secret:
-            secretName: seabee-postgres-init
+            secretName: {{ .Release.Name }}-postgres-init
         - name: dshm
           emptyDir:
             medium: Memory
