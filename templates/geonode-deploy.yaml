@@ -62,7 +62,7 @@ spec:
         volumeMounts:
         - name: persistence
           mountPath: /geoserver_data/data
-          subPath: geoserver-data-dir
+          subPath: geonode/geoserver-data-dir
         - name: geoserver-conf
           mountPath: /overrides
 
@@ -111,16 +111,16 @@ spec:
           subPath: local_settings.py
         - name: persistence
           mountPath: /mnt/volumes/statics
-          subPath: statics
+          subPath: geonode/statics
         - name: persistence
           mountPath: /geoserver_data/data
-          subPath: geoserver-data-dir
+          subPath: geonode/geoserver-data-dir
         - name: persistence
           mountPath: /backup_restore
-          subPath: backup-restore
+          subPath: geonode/backup-restore
         - name: persistence
           mountPath: /data
-          subPath: data
+          subPath: geonode/data
         - name: cache-volume
           mountPath: /tmp
         resources:
@@ -168,19 +168,19 @@ spec:
         # To persist uploaded media
         - name: persistence
           mountPath: /mnt/volumes/statics
-          subPath: statics
+          subPath: geonode/statics
         # Mount statics as emptydir to recreate them on pod recreation (e.g. upgrades) but not on container restart
         - name: static
           mountPath: /mnt/volumes/statics/static
         - name: persistence
           mountPath: /geoserver_data/data
-          subPath: geoserver-data-dir
+          subPath: geonode/geoserver-data-dir
         - name: persistence
           mountPath: /backup_restore
-          subPath: backup-restore
+          subPath: geonode/backup-restore
         - name: persistence
           mountPath: /data
-          subPath: data
+          subPath: geonode/data
         - name: cache-volume
           mountPath: /tmp
         # healthcheck: curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8001/
@@ -199,7 +199,7 @@ spec:
         volumeMounts:
         - name: persistence
           mountPath: /mnt/volumes/statics
-          subPath: statics
+          subPath: geonode/statics
         - name: geonode-conf
           mountPath: /mnt/volumes/statics/static/geonode/img/favicon.ico
           subPath: favicon.ico
@@ -245,16 +245,16 @@ spec:
         volumeMounts:
         # - name: persistence
         #   mountPath: /mnt/volumes/statics
-        #   subPath: statics
+        #   subPath: geonode/statics
         - name: persistence
           mountPath: /geoserver_data/data
-          subPath: geoserver-data-dir
+          subPath: geonode/geoserver-data-dir
         # - name: persistence
         #   mountPath: /backup_restore
-        #   subPath: backup-restore
+        #   subPath: geonode/backup-restore
         # - name: persistence
         #   mountPath: /data
-        #   subPath: data
+        #   subPath: geonode/data
         # - name: cache-volume
         #   mountPath: /tmp
         readinessProbe:
@@ -293,9 +293,8 @@ spec:
         configMap:
           name: {{ .Release.Name }}-geonode-conf
       - name: persistence
-        emptyDir: {}
-        #persistentVolumeClaim:
-        #  claimName: {{ .Release.Name }}-geonode
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistentStorage.existingClaimName }}
       # Using an emptyDir to cache compiled statics... it will survive container crashes, but not pod restarts
       - name: cache-volume
         emptyDir: {}

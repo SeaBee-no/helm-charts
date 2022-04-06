@@ -143,8 +143,6 @@ general:
     # NOTE: GEOSERVER ADMIN password must be changed manually https://docs.geonode.org/en/3.2.x/install/basic/index.html
   # -- Support email visible to users
   supportEmail: support@example.com
-  # -- Volume storage size to request
-  storageSize: 1Gi
   # -- `ClusterIP` / `LoadBalancer` / `NodePort`
   serviceType: ClusterIP
 smtp:
@@ -160,9 +158,8 @@ smtp:
   password: "changemvsdvfve"
   # -- SMTP "from" address
   from:
-global:
-  # -- Will be used by this and all subcharts for all volumes
-  storageClass: standard
+persistentStorage:
+  existingClaimName: 71aea088-9e00-4f3c-adf7-0579fe1c38b8
 ingress:
   # -- Ingress enabled?
   enabled: true
