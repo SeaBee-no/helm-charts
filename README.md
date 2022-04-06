@@ -19,3 +19,4 @@ helm install --namespace geonode -f my-values.yaml seabee .
 - [ ] Figure out if geonode should have access to any files on minio
 - [ ] Setup in pulumi, can probably abandon this repo
 - [ ] SQL proxy setup and swap db connection, needs a password to cloud sql
+- [ ] Geoserver admin password must be changed manually 
