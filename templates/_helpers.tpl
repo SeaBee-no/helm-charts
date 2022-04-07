@@ -174,7 +174,7 @@ amqp://{{ .Values.rabbitmq.auth.username }}:{{ .Values.rabbitmq.auth.password }}
 - name: GEOSERVER_PUBLIC_SCHEMA
   value: {{ .Values.general.externalScheme | quote }}
 - name: GEOSERVER_LOCATION
-  value: http://localhost:8080/geoserver/
+  value: http://{{ .Release.Name }}-geoserver:8080/geoserver/
 - name: GEOSERVER_ADMIN_USER
   value: admin
 - name: GEOSERVER_ADMIN_PASSWORD
@@ -320,7 +320,7 @@ server {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
 
-    proxy_pass http://localhost:8080;
+    proxy_pass http://{{ .Release.Name }}-geoserver:8080;
   }
 
   # GeoNode
