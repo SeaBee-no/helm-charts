@@ -31,6 +31,7 @@ spec:
       - ip: "127.0.0.1"
         hostnames:
         - geonode
+        - django
       initContainers:
       # Wait for Postgres and rabbit
       - name: wait-db
