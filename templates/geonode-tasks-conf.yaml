@@ -231,7 +231,7 @@ data:
             f'sed -i "s|<redirectUri>.*</redirectUri>|<redirectUri>{new_ext_ip}geoserver/index.html</redirectUri>|g" {oauth_config}',  # noqa
             pty=True)
         ctx.run(
-            f'sed -i "s|<checkTokenEndpointUrl>.*</checkTokenEndpointUrl>|<checkTokenEndpointUrl>http://{{ .Release.Name }}-geonode/api/o/v4/tokeninfo/</checkTokenEndpointUrl>|g" {oauth_config}',  # noqa
+            f'sed -i "s|<checkTokenEndpointUrl>.*</checkTokenEndpointUrl>|<checkTokenEndpointUrl>http://{{ .Release.Name }}-geonode:80/api/o/v4/tokeninfo/</checkTokenEndpointUrl>|g" {oauth_config}',  # noqa
             pty=True)
         ctx.run(
             f'sed -i "s|<logoutUri>.*</logoutUri>|<logoutUri>{new_ext_ip}account/logout/</logoutUri>|g" {oauth_config}',
