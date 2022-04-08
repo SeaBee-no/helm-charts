@@ -128,7 +128,8 @@ geoserver:
   extraCustomEPSGs: []
 general:
   # -- group id also used for fsgroup
-  gid: 219879
+  gid: 1001
+  uid: 1001
   # -- Public domain used to access the application
   externalDomain: geonode.seabee.sigma2.no
   # -- Public-facing protocol used to access the application

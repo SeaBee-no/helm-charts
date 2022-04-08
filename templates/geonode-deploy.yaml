@@ -36,6 +36,29 @@ spec:
       securityContext:
         fsGroup: {{ .Values.general.gid }}
       initContainers:
+      - name: busybox
+        image: registry.uninett.no/public/busybox:1.33.1-glibc
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: {{ .Values.uid }}
+          runAsGroup: {{ .Values.gid }}
+        args:
+          - /bin/sh
+          - -c
+          - -x
+          - "mkdir -p /geonode/statics && \
+            mkdir -p  /geonode/geoserver-data-dir && \
+            mkdir -p  /geonode/backup-restore && \
+            mkdir -p  /geonode/data && \
+            chmod g+wx /geonode/statics && \
+            chmod g+wx /geonode/geoserver-data-dir && \
+            chmod g+wx /geonode/backup-restore && \
+            chmod g+wx /geonode/data"
+        volumeMounts:
+        - name: persistence
+          mountPath: /geonode
+          subPath: geonode
+
       # Initialize default data
       # The tag NEEDS to match with the geoserver tag
       # See https://hub.docker.com/r/geonode/geoserver
