@@ -193,9 +193,6 @@ spec:
         - name: persistence
           mountPath: /mnt/volumes/statics
           subPath: geonode/statics
-        # Mount statics as emptydir to recreate them on pod recreation (e.g. upgrades) but not on container restart
-        - name: static
-          mountPath: /mnt/volumes/statics/static
         - name: persistence
           mountPath: /geoserver_data/data
           subPath: geonode/geoserver-data-dir
@@ -321,6 +318,4 @@ spec:
           claimName: {{ .Values.persistentStorage.existingClaimName }}
       # Using an emptyDir to cache compiled statics... it will survive container crashes, but not pod restarts
       - name: cache-volume
-        emptyDir: {}
-      - name: static
         emptyDir: {}
