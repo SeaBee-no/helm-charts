@@ -33,7 +33,8 @@ spec:
         hostnames:
         - geonode
         - geoserver
-
+      securityContext:
+        fsGroup: {{ .Values.general.gid }}
       initContainers:
       # Initialize default data
       # The tag NEEDS to match with the geoserver tag
