@@ -26,6 +26,8 @@ spec:
         app.kubernetes.io/name: geoserver
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      securityContext:
+        fsGroup: {{ .Values.general.gid }}
       # Resolving some hardcoded links...
       initContainers:
       # Initialize default data

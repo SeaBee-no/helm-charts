@@ -32,6 +32,8 @@ spec:
         hostnames:
         - geonode
         - django
+      securityContext:
+        fsGroup: {{ .Values.general.gid }}
       initContainers:
       # Wait for Postgres and rabbit
       - name: wait-db
