@@ -128,7 +128,7 @@ amqp://{{ .Values.rabbitmq.auth.username }}:{{ .Values.rabbitmq.auth.password }}
   value: /mnt/volumes/statics/geoip.db
 
 - name: ALLOWED_HOSTS
-  value: "['django', '*', '{{ .Values.general.externalDomain }}']"
+  value: "['django', '*', '{{ .Values.general.externalDomain }}', {{ .Release.Name }}-geonode]"
 
 - name: DEFAULT_BACKEND_UPLOADER
   value: geonode.importer
