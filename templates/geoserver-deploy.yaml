@@ -34,8 +34,8 @@ spec:
         image: registry.uninett.no/public/busybox:1.33.1-glibc
         imagePullPolicy: IfNotPresent
         securityContext:
-          runAsUser: {{ .Values.uid }}
-          runAsGroup: {{ .Values.gid }}
+          runAsUser: {{ .Values.general.uid }}
+          runAsGroup: {{ .Values.general.gid }}
         args:
           - /bin/sh
           - -c
