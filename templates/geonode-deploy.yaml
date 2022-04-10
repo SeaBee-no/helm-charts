@@ -31,7 +31,6 @@ spec:
       - ip: "127.0.0.1"
         hostnames:
         - geonode
-        - django
       securityContext:
         fsGroup: {{ .Values.general.gid }}
       initContainers:
@@ -39,8 +38,8 @@ spec:
         image: registry.uninett.no/public/busybox:1.33.1-glibc
         imagePullPolicy: IfNotPresent
         securityContext:
-          runAsUser: {{ .Values.uid }}
-          runAsGroup: {{ .Values.gid }}
+          runAsUser: {{ .Values.general.uid }}
+          runAsGroup: {{ .Values.general.gid }}
         args:
           - /bin/sh
           - -c
@@ -53,6 +52,35 @@ spec:
             chmod g+wx /geonode/geoserver-data-dir && \
             chmod g+wx /geonode/backup-restore && \
             chmod g+wx /geonode/data"
+        volumeMounts:
+        - name: persistence
+          mountPath: /geonode
+          subPath: geonode
+
+      # Initialize default data
+      # The tag NEEDS to match with the geoserver tag
+      # See https://hub.docker.com/r/geonode/geoserver
+      - name: data-dir-conf
+        image: geonode/geoserver_data:{{ .Values.geoserver.image.tag }}
+        command:
+        - sh
+        - -c
+        - |
+          # Copy defaults from data container
+          cp -r /tmp/geonode/downloaded/data /geoserver_data
+
+          # Copy overrides from ConfigMap
+          cp /overrides/notifier.xml /geoserver_data/data/notifier/
+
+          # Update custom EPSG codes
+          cat /geoserver_data/data/user_projections/epsg.properties > /tmp/epsg.properties
+          {{- range .Values.geoserver.customEPSGs }}
+          echo '{{ . }}' >> /tmp/epsg.properties
+          {{- end }}
+          {{- range .Values.geoserver.extraCustomEPSGs }}
+          echo '{{ . }}' >> /tmp/epsg.properties
+          {{- end }}
+          sort -u /tmp/epsg.properties > /geoserver_data/data/user_projections/epsg.properties
         volumeMounts:
         - name: persistence
           mountPath: /geonode
@@ -156,9 +184,6 @@ spec:
         - name: persistence
           mountPath: /mnt/volumes/statics
           subPath: geonode/statics
-        # Mount statics as emptydir to recreate them on pod recreation (e.g. upgrades) but not on container restart
-        - name: static
-          mountPath: /mnt/volumes/statics/static
         - name: persistence
           mountPath: /geoserver_data/data
           subPath: geonode/geoserver-data-dir
@@ -213,6 +238,4 @@ spec:
           claimName: {{ .Values.persistentStorage.existingClaimName }}
       # Using an emptyDir to cache compiled statics... it will survive container crashes, but not pod restarts
       - name: cache-volume
-        emptyDir: {}
-      - name: static
         emptyDir: {}

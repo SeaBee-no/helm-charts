@@ -29,6 +29,23 @@ spec:
     spec:      
       securityContext:
         fsGroup: 1001
+      initContainers:
+      - name: busybox
+        image: registry.uninett.no/public/busybox:1.33.1-glibc
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: {{ .Values.general.uid }}
+          runAsGroup: {{ .Values.general.gid }}
+        args:
+          - /bin/sh
+          - -c
+          - -x
+          - "mkdir -p /geonode/postgresql && \
+            chmod g+wx /geonode/postgresql"
+        volumeMounts:
+        - name: persistence
+          mountPath: /geonode
+          subPath: geonode
       containers:
         - name: seabee-postgresql
           image: docker.io/bitnami/postgresql:11.10.0-debian-10-r24
@@ -41,7 +58,7 @@ spec:
               cpu: 250m
               memory: 256Mi
           securityContext:
-            runAsUser: 1001
+            runAsUser: {{ .Values.general.uid }}
           env:
             - name: BITNAMI_DEBUG
               value: "false"
@@ -107,6 +124,9 @@ spec:
               mountPath: /docker-entrypoint-initdb.d/secret
             - name: dshm
               mountPath: /dev/shm
+            - name: persistence
+              mountPath: /bitnami/postgresql
+              subPath: geonode/postgresql
       volumes:
         - name: custom-init-scripts-secret
           secret:
@@ -115,3 +135,6 @@ spec:
           emptyDir:
             medium: Memory
             sizeLimit: 1Gi
+        - name: persistence
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistentStorage.existingClaimName }}

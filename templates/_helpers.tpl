@@ -162,7 +162,7 @@ amqp://{{ .Values.rabbitmq.auth.username }}:{{ .Values.rabbitmq.auth.password }}
   value: '10'
 
 - name: MAX_DOCUMENT_SIZE
-  value: '2'
+  value: '10'
 - name: API_LIMIT_PER_PAGE
   value: '1000'
 
