@@ -280,7 +280,7 @@ server {
   charset     utf-8;
 
   # max upload size
-  client_max_body_size 100G;
+  client_max_body_size 200M;
   client_body_buffer_size 256K;
   large_client_header_buffers 4 64k;
   proxy_read_timeout 600s;
