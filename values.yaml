@@ -1,9 +1,9 @@
 geonode:
   image:
     # -- Geonode image name
-    name: geonode/geonode
+    name: europe-west1-docker.pkg.dev/seabee/images/geonode
     # -- Geonode image tag
-    tag: "3.2.x"
+    tag: "latest"
   # -- Use this to pass any env to `geonode` container
   # See https://docs.geonode.org/en/master/basic/settings/index.html
   # @default -- Various default values, see `values.yaml`
@@ -160,9 +160,9 @@ ingress:
   # -- Ingress annotations table
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.org/client-max-body-size: "0"
-    nginx.org/proxy-connect-timeout: 600s
-    nginx.org/proxy-read-timeout: 600s
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     # kubernetes.io/tls-acme: "true"
   secretName: wildcard-tls
 postgresql:
