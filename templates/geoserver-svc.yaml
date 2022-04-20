@@ -2,17 +2,14 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: {{ .Release.Name }}-geonode
+  name: {{ .Release.Name }}-geoserver
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
-    app.kubernetes.io/name: geonode
+    app.kubernetes.io/name: geoserver
     app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
-  - targetPort: 80
-    port: 80
-    name: www
-  - targetPort: 8000
-    port: 8000
-    name: geonode
+  - targetPort: 8080
+    port: 8080
+    name: geoserver
   type: {{ .Values.general.serviceType }}
