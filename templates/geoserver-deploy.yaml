@@ -56,11 +56,11 @@ spec:
         - -c
         - |
           # Copy defaults from data container
-          cp -r /tmp/geonode/downloaded/data /geoserver_data
+          cp -r /tmp/geonode/downloaded/data /geoserver_data/data
 
           # Copy overrides from Secrets, can't mount file directly
-          cp /secrets/notifier.xml /geoserver_data/data/notifier/
-          cp /secrets/config.xml /geoserver_data/data/security/filter/geonode-oauth2/
+          #cp /secrets/notifier.xml /geoserver_data/data/notifier/
+          #cp /secrets/config.xml /geoserver_data/data/security/filter/geonode-oauth2/
 
           # Update custom EPSG codes
           cat /geoserver_data/data/user_projections/epsg.properties > /tmp/epsg.properties
@@ -73,7 +73,7 @@ spec:
           sort -u /tmp/epsg.properties > /geoserver_data/data/user_projections/epsg.properties
         volumeMounts:
         - name: persistence
-          mountPath: /geoserver_data
+          mountPath: /geoserver_data/data
           subPath: geonode/geoserver-data-dir
         - name: geoserver-secrets
           mountPath: /secrets
