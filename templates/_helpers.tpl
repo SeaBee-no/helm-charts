@@ -270,6 +270,41 @@ amqp://{{ .Values.rabbitmq.auth.username }}:{{ .Values.rabbitmq.auth.password }}
 server{
   listen 80;
   index index.html index.htm;
+  include /etc/nginx/mime.types;
+
+  # This is the main geonode conf
+  charset     utf-8;
+
+  # max upload size
+  client_max_body_size 2G;
+  client_body_buffer_size 256K;
+  large_client_header_buffers 4 64k;
+  proxy_read_timeout 600s;
+
+  fastcgi_hide_header Set-Cookie;
+
+  etag on;
+
+  # compression
+  gzip on;
+  gzip_vary on;
+  gzip_proxied any;
+  gzip_http_version 1.1;
+  gzip_disable "MSIE [1-6]\.";
+  gzip_buffers 16 8k;
+  gzip_min_length 1100;
+  gzip_comp_level 6;
+  gzip_types
+    text/css
+    text/javascript
+    text/xml
+    text/plain
+    application/xml
+    application/xml+rss
+    application/javascript
+    application/x-javascript
+    application/json;
+
   root   /mnt/volumes/statics/;
   location /{
       if ($request_method = OPTIONS) {
