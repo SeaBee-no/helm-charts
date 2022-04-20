@@ -56,7 +56,7 @@ spec:
         - -c
         - |
           # Copy defaults from data container
-          cp -r /tmp/geonode/downloaded/data /geoserver_data/data
+          cp -r /tmp/geonode/downloaded/data /geoserver_data
 
           # Copy overrides from Secrets, can't mount file directly
           #cp /secrets/notifier.xml /geoserver_data/data/notifier/
