@@ -58,8 +58,9 @@ spec:
           # Copy defaults from data container
           cp -r /tmp/geonode/downloaded/data /geoserver_data
 
-          # Copy overrides from ConfigMap
-          cp /overrides/notifier.xml /geoserver_data/data/notifier/
+          # Copy overrides from Secrets, can't mount file directly
+          cp /secrets/notifier.xml /geoserver_data/data/notifier/
+          cp /secrets/config.xml /geoserver_data/data/security/filter/geonode-oauth2/
 
           # Update custom EPSG codes
           cat /geoserver_data/data/user_projections/epsg.properties > /tmp/epsg.properties
@@ -74,8 +75,8 @@ spec:
         - name: persistence
           mountPath: /geoserver_data
           subPath: geonode/geoserver-data-dir
-        - name: geoserver-conf
-          mountPath: /overrides
+        - name: geoserver-secrets
+          mountPath: /secrets
       containers:
       - name: geoserver
         image: "{{ .Values.geoserver.image.name }}:{{ .Values.geoserver.image.tag }}"
@@ -124,9 +125,9 @@ spec:
             memory: 4Gi
             cpu: 400m
       volumes:
-      - name: geoserver-conf
-        configMap:
-          name: {{ .Release.Name }}-geoserver-conf
+      - name: geoserver-secrets
+        secret:
+          secretName: {{ .Release.Name }}-geoserver-secrets
       - name: persistence
         persistentVolumeClaim:
           claimName: {{ .Values.persistentStorage.existingClaimName }}
