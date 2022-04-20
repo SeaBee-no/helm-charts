@@ -57,35 +57,6 @@ spec:
         - name: persistence
           mountPath: /geonode
           subPath: geonode
-
-      # Initialize default data
-      # The tag NEEDS to match with the geoserver tag
-      # See https://hub.docker.com/r/geonode/geoserver
-      - name: data-dir-conf
-        image: geonode/geoserver_data:{{ .Values.geoserver.image.tag }}
-        command:
-        - sh
-        - -c
-        - |
-          # Copy defaults from data container
-          cp -r /tmp/geonode/downloaded/data /geoserver_data
-
-          # Copy overrides from ConfigMap
-          cp /overrides/notifier.xml /geoserver_data/data/notifier/
-
-          # Update custom EPSG codes
-          cat /geoserver_data/data/user_projections/epsg.properties > /tmp/epsg.properties
-          {{- range .Values.geoserver.customEPSGs }}
-          echo '{{ . }}' >> /tmp/epsg.properties
-          {{- end }}
-          {{- range .Values.geoserver.extraCustomEPSGs }}
-          echo '{{ . }}' >> /tmp/epsg.properties
-          {{- end }}
-          sort -u /tmp/epsg.properties > /geoserver_data/data/user_projections/epsg.properties
-        volumeMounts:
-        - name: persistence
-          mountPath: /geonode
-          subPath: geonode
       # Wait for Postgres and rabbit
       - name: wait-db
         image: jwilder/dockerize
@@ -123,9 +94,6 @@ spec:
         - name: persistence
           mountPath: /mnt/volumes/statics
           subPath: geonode/statics
-        - name: persistence
-          mountPath: /geoserver_data/data
-          subPath: geonode/geoserver-data-dir
         - name: persistence
           mountPath: /backup_restore
           subPath: geonode/backup-restore
@@ -182,9 +150,6 @@ spec:
         - name: persistence
           mountPath: /mnt/volumes/statics
           subPath: geonode/statics
-        - name: persistence
-          mountPath: /geoserver_data/data
-          subPath: geonode/geoserver-data-dir
         - name: persistence
           mountPath: /backup_restore
           subPath: geonode/backup-restore

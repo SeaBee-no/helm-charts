@@ -40,14 +40,8 @@ spec:
           - /bin/sh
           - -c
           - -x
-          - "mkdir -p /geonode/statics && \
-            mkdir -p  /geonode/geoserver-data-dir && \
-            mkdir -p  /geonode/backup-restore && \
-            mkdir -p  /geonode/data && \
-            chmod g+wx /geonode/statics && \
-            chmod g+wx /geonode/geoserver-data-dir && \
-            chmod g+wx /geonode/backup-restore && \
-            chmod g+wx /geonode/data"
+          - "mkdir -p  /geonode/geoserver-data-dir && \
+            chmod g+wx /geonode/geoserver-data-dir"
         volumeMounts:
         - name: persistence
           mountPath: /geonode
@@ -78,7 +72,7 @@ spec:
           sort -u /tmp/epsg.properties > /geoserver_data/data/user_projections/epsg.properties
         volumeMounts:
         - name: persistence
-          mountPath: /geoserver_data/data
+          mountPath: /geoserver_data
           subPath: geonode/geoserver-data-dir
         - name: geoserver-conf
           mountPath: /overrides
