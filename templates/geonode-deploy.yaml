@@ -120,9 +120,6 @@ spec:
         - name: geonode-conf
           mountPath: /usr/src/geonode/geonode/local_settings.py
           subPath: local_settings.py
-        - name: geonode-tasks-conf
-          mountPath: /usr/src/geonode/geonode/tasks.py
-          subPath: tasks.py
         - name: persistence
           mountPath: /mnt/volumes/statics
           subPath: geonode/statics
@@ -228,9 +225,6 @@ spec:
       - name: nginx-confd
         configMap:
           name: {{ .Release.Name }}-nginx-confd
-      - name: geonode-tasks-conf
-        configMap:
-          name: {{ .Release.Name }}-geonode-tasks-conf
       - name: geonode-conf
         configMap:
           name: {{ .Release.Name }}-geonode-conf
