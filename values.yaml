@@ -1,9 +1,9 @@
 geonode:
   image:
     # -- Geonode image name
-    name: europe-west1-docker.pkg.dev/seabee/images/geonode
+    name: geonode/geonode
     # -- Geonode image tag
-    tag: "latest"
+    tag: "3.3.x"
   # -- Use this to pass any env to `geonode` container
   # See https://docs.geonode.org/en/master/basic/settings/index.html
   # @default -- Various default values, see `values.yaml`
