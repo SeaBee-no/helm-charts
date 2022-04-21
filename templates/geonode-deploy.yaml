@@ -83,6 +83,9 @@ spec:
           sed -i 's/^logto/#logto/ig' /usr/src/geonode/uwsgi.ini
           # For vanilla geonode disable geoserver oauth config
           sed -i "/{oauth_config}/c\        f'echo NOT MODIFYING GEOSERVER'," /usr/src/geonode/tasks.py
+          # Setup tasks.py to change admin geoserver password on startup
+          sed -i "s/settings.OGC_SERVER_DEFAULT_USER/'admin'/g" /usr/src/geonode/tasks.py
+          sed -i "s/settings.OGC_SERVER_DEFAULT_PASSWORD/os.getenv('GEOSERVER_DEFAULT_ADMIN_PASSWORD', 'geoserver')/g" /usr/src/geonode/tasks.py
           # Run
           /usr/src/geonode/entrypoint.sh uwsgi --ini /usr/src/geonode/uwsgi.ini
         ports:
