@@ -154,8 +154,15 @@ smtp:
   password: "changemvsdvfve"
   # -- SMTP "from" address
   from:
-persistentStorage:
-  existingClaimName: 71aea088-9e00-4f3c-adf7-0579fe1c38b8
+storage:
+  # -- claimName for persistent volume, needes to be readwritemany
+  claimName: 71aea088-9e00-4f3c-adf7-0579fe1c38b8
+  # -- create a new persistent volume claim, would not work on nird currently
+  createClaim: false
+  # -- storage class to use
+  storageClass: standard
+  # -- storage size
+  storageSize: 1Gi
 ingress:
   # -- Ingress enabled?
   enabled: true

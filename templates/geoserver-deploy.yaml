@@ -130,4 +130,4 @@ spec:
           secretName: {{ .Release.Name }}-geoserver-secrets
       - name: persistence
         persistentVolumeClaim:
-          claimName: {{ .Values.persistentStorage.existingClaimName }}
+          claimName: {{ .Values.storage.claimName }}

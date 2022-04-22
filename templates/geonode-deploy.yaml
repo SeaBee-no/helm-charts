@@ -195,7 +195,7 @@ spec:
           name: {{ .Release.Name }}-geonode-conf
       - name: persistence
         persistentVolumeClaim:
-          claimName: {{ .Values.persistentStorage.existingClaimName }}
+          claimName: {{ .Values.storage.claimName }}
       # Using an emptyDir to cache compiled statics... it will survive container crashes, but not pod restarts
       - name: cache-volume
         emptyDir: {}

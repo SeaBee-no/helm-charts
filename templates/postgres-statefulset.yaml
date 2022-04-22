@@ -137,4 +137,4 @@ spec:
             sizeLimit: 1Gi
         - name: persistence
           persistentVolumeClaim:
-            claimName: {{ .Values.persistentStorage.existingClaimName }}
+            claimName: {{ .Values.storage.claimName }}
