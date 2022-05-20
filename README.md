@@ -4,19 +4,9 @@ Inital test of geonode setup on kubernetes. This chart is initially based one th
 
 ``` bash
 helm dependency update
-helm install --namespace geonode -f my-values.yaml seabee .
+helm install --namespace seabee-ns9879k -f my-values.yaml seabee .
 ```
 
 # Notes
-- [x] Get geonode running on k8s
-- [x] Inital understanding of geonode config
-  - Geonode hardcodes a lot of docker-compose dns in the image, this has been the main issue then trying to run it.
-- [ ] rabbitmq deployment for nird
-  - This needs modified rabbitmq deployment, using the PVC defined on nird
-  - Also looks like we can't create KSA as bitnami is doing upstream
-- [x] Figure out chart ingress
-- [ ] tls support
-- [ ] Figure out if geonode should have access to any files on minio
-- [ ] Setup in pulumi, can probably abandon this repo
-- [ ] SQL proxy setup and swap db connection, needs a password to cloud sql
-- [ ] Geoserver admin password must be changed [manually](https://www.geocat.net/docs/geoserver-enterprise/2020.5/productionenterprise/adminpassword.html#) 
+- [] Setup cloud sql db
+- [] Integrate chart with pulumi and seabee-iac repo
