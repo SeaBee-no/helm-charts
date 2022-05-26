@@ -80,11 +80,17 @@ spec:
       containers:
       - name: geoserver
         image: "{{ .Values.geoserver.image.name }}:{{ .Values.geoserver.image.tag }}"
+        command:
+        - sh
+        - -c
+        - |
+          sed -i "s#http://geonode:80#{{ include "public_url" . }}#g" /usr/local/tomcat/tmp/entrypoint.sh
+          /usr/local/tomcat/tmp/entrypoint.sh
         ports:
         - containerPort: 8080
         env:
-        - name: GEONODE_LB_HOST_IP
-          value: {{ .Values.general.externalDomain | quote }}
+        #- name: GEONODE_LB_HOST_IP
+        #  value: {{ .Values.general.externalDomain | quote }}
         - name: GEONODE_LB_PORT
           value: {{ .Values.general.externalPort | quote }}
         - name: GEONODE_HOST_IP
