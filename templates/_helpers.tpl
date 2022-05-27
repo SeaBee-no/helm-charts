@@ -276,63 +276,34 @@ server{
   charset     utf-8;
 
   # max upload size
-  client_max_body_size 2G;
-  client_body_buffer_size 256K;
-  large_client_header_buffers 4 64k;
-  proxy_read_timeout 600s;
-
-  fastcgi_hide_header Set-Cookie;
-
-  etag on;
+  client_max_body_size 100G;
 
   # compression
   gzip on;
-  gzip_vary on;
   gzip_proxied any;
-  gzip_http_version 1.1;
-  gzip_disable "MSIE [1-6]\.";
-  gzip_buffers 16 8k;
-  gzip_min_length 1100;
-  gzip_comp_level 6;
   gzip_types
-    text/css
-    text/javascript
-    text/xml
-    text/plain
-    application/xml
-    application/xml+rss
-    application/javascript
-    application/x-javascript
-    application/json;
+      text/css
+      text/javascript
+      text/xml
+      text/plain
+      application/javascript
+      application/x-javascript
+      application/json;
 
   root   /mnt/volumes/statics/;
-  location /{
-      if ($request_method = OPTIONS) {
-          add_header Access-Control-Allow-Methods "GET, POST, PUT, PATCH, OPTIONS";
-          add_header Access-Control-Allow-Headers "Authorization, Content-Type, Accept";
-          add_header Access-Control-Allow-Credentials true;
-          add_header Content-Length 0;
-          add_header Content-Type text/plain;
-          add_header Access-Control-Max-Age 1728000;
-          return 200;
-      }
-      try_files $uri @django;
-  }
-  location @django {
-      include uwsgi_params;
-      uwsgi_pass uwsgi://django:8000;
-      add_header Access-Control-Allow-Credentials false;
-      add_header Access-Control-Allow-Headers "Content-Type, Accept, Authorization, Origin, User-Agent";
-      add_header Access-Control-Allow-Methods "GET, POST, PUT, PATCH, OPTIONS";
-  }
-  location /geoserver {
-      proxy_redirect              off;
-      proxy_set_header            Host $host;
-      proxy_set_header            X-Real-IP $remote_addr;
-      proxy_set_header            X-Forwarded-Host $server_name;
-      proxy_set_header            X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header            X-Forwarded-Proto $scheme;
-      proxy_pass http://{{ .Release.Name }}-geoserver:8080/geoserver;
-  }
+  # Finally, send all non-media requests to the Django server.
+  location / {
+      # uwsgi_params
+      include /etc/nginx/uwsgi_params;
+
+      # Using a variable is a trick to let Nginx start even if upstream host is not up yet
+      # (see https://sandro-keil.de/blog/2017/07/24/let-nginx-start-if-upstream-host-is-unavailable-or-down/)
+      set $upstream 127.0.0.1:8000;
+      uwsgi_pass $upstream;
+
+      # when a client closes the connection then keep the channel to uwsgi open. Otherwise uwsgi throws an IOError
+      uwsgi_ignore_client_abort on;
+    }
+
  }
 {{- end -}}
