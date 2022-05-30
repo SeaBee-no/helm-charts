@@ -84,13 +84,25 @@ spec:
         - sh
         - -c
         - |
+          echo "###### FIXING GEOSERVER ADMIN PASSWORD ####"
+          ADMIN_ENCRYPTED_PASSWORD=$(/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/bin/java -classpath /usr/local/tomcat/webapps/geoserver/WEB-INF/lib/jasypt-1.9.2.jar org.jasypt.intf.cli.JasyptStringDigestCLI digest.sh algorithm=SHA-256 saltSizeBytes=16 iterations=100000 input="$GEOSERVER_ADMIN_PASSWORD" verbose=0 | tr -d '\n')
+          sed -i -r "s|<user enabled=\".*\" name=\".*\" password=\".*\"/>|<user enabled=\"true\" name=\"$GEOSERVER_ADMIN_USER\" password=\"digest1:$ADMIN_ENCRYPTED_PASSWORD\"/>|" "/geoserver_data/data/security/usergroup/default/users.xml"
+          sed -i -r "s|<userRoles username=\".*\">|<userRoles username=\"$GEOSERVER_ADMIN_USER\">|" "/geoserver_data/data/security/role/default/roles.xml"
+          ADMIN_ENCRYPTED_PASSWORD=""
+
+          echo "###### FIXING GEOSERVER PUBLIC URL ########"
           sed -i "s#http://geonode:80#{{ include "public_url" . }}#g" /usr/local/tomcat/tmp/entrypoint.sh
           /usr/local/tomcat/tmp/entrypoint.sh
         ports:
         - containerPort: 8080
         env:
-        #- name: GEONODE_LB_HOST_IP
-        #  value: {{ .Values.general.externalDomain | quote }}
+        - name: GEOSERVER_ADMIN_USER
+          value: admin
+        - name: GEOSERVER_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-secrets
+              key: GEOSERVER_ADMIN_PASSWORD
         - name: GEONODE_LB_PORT
           value: {{ .Values.general.externalPort | quote }}
         - name: GEONODE_HOST_IP
