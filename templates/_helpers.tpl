@@ -185,7 +185,7 @@ amqp://{{ .Values.rabbitmq.auth.username }}:{{ .Values.rabbitmq.auth.password }}
 - name: OGC_REQUEST_TIMEOUT
   value: '30'
 - name: OGC_REQUEST_MAX_RETRIES
-  value: '1'
+  value: '3'
 - name: OGC_REQUEST_BACKOFF_FACTOR
   value: '0.3'
 - name: OGC_REQUEST_POOL_MAXSIZE
