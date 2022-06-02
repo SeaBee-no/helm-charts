@@ -1,5 +1,9 @@
 {{- define "database_host" -}}
-{{ .Release.Name }}-postgresql:5432
+{{- if .Values.postgresql.install -}}
+  {{ .Release.Name }}-postgresql:5432
+{{- else -}}
+  {{ .Values.postgresql.externalhost }} 
+{{- end -}}
 {{- end -}}
 
 {{- define "rabbit_host" -}}

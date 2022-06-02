@@ -144,8 +144,10 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   secretName: wildcard-tls
 postgresql:
-  # -- Install Postgres? See See https://artifacthub.io/packages/helm/bitnami/postgresql for docs on all Postgres values
-  enabled: true
+  # -- Install Postgres?
+  install: true
+  # -- Postgres host
+  externalhost: "postgresql:5432"
   # -- Postgres database AND user name for geonode
   geonodeDb: geonode
   # -- Postgres database AND user name for geoserver

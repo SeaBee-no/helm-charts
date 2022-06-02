@@ -1,4 +1,4 @@
-# Source: geonode/charts/postgresql/templates/svc-headless.yaml
+{{- if .Values.postgresql.install -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -29,7 +29,6 @@ spec:
     app.kubernetes.io/name: postgresql
     app.kubernetes.io/instance: {{ .Release.Name }}
 ---
-# Source: geonode/charts/postgresql/templates/svc.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -49,3 +48,4 @@ spec:
     app.kubernetes.io/name: postgresql
     app.kubernetes.io/instance: {{ .Release.Name }}
     role: primary
+{{ end }}

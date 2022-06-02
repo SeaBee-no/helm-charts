@@ -1,4 +1,4 @@
-# Source: geonode/charts/postgresql/templates/statefulset.yaml
+{{- if .Values.postgresql.install -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -137,3 +137,4 @@ spec:
         - name: persistence
           persistentVolumeClaim:
             claimName: {{ .Values.storage.claimName }}
+{{ end }}

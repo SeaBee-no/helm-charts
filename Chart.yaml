@@ -1,13 +1,4 @@
 apiVersion: v2
-#dependencies:
-#- condition: postgresql.enabled
-#  name: postgresql
-#  repository: https://charts.bitnami.com/bitnami
-#  version: ~10.1.2
-#- condition: rabbitmq.enabled
-#  name: rabbitmq
-#  repository: https://charts.bitnami.com/bitnami
-#  version: ~8.6.0
 description: Geonode - a CMS for Geospatial data
 home: https://geonode.org/
 icon: https://pbs.twimg.com/profile_images/1221883359/geonode_400x400.png
