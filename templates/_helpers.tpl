@@ -11,11 +11,11 @@
 {{- end -}}
 
 {{- define "database_geonode" -}}
-postgis://{{ .Values.postgresql.geonodeDb }}:{{ .Values.postgresql.password }}@{{ include "database_host" .}}/{{ .Values.postgresql.geonodeDb }}
+postgis://{{ .Values.postgresql.geonodeDb }}:{{ .Values.postgresql.password }}@{{ include "database_host" .}}:5432/{{ .Values.postgresql.geonodeDb }}
 {{- end -}}
 
 {{- define "database_geonode_data" -}}
-postgis://{{ .Values.postgresql.geodataDb }}:{{ .Values.postgresql.password }}@{{ include "database_host" .}}/{{ .Values.postgresql.geodataDb }}
+postgis://{{ .Values.postgresql.geodataDb }}:{{ .Values.postgresql.password }}@{{ include "database_host" .}}:5432/{{ .Values.postgresql.geodataDb }}
 {{- end -}}
 
 {{- define "broker_url" -}}
