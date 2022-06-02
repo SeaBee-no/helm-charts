@@ -47,7 +47,7 @@ spec:
           subPath: geonode
       containers:
         - name: {{ .Release.Name }}-postgresql
-          image: docker.io/bitnami/postgresql:11.10.0-debian-10-r24
+          image: {{ .Values.postgresql.image }}
           imagePullPolicy: "IfNotPresent"
           resources:
             requests:

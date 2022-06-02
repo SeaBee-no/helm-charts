@@ -146,6 +146,8 @@ ingress:
 postgresql:
   # -- Install Postgres?
   install: true
+  # -- Image
+  image: bitnami/postgresql:11.10.0-debian-10-r24
   # -- Postgres host
   externalhost: "postgresql:5432"
   # -- Postgres database AND user name for geonode

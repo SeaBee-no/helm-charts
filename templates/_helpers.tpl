@@ -1,6 +1,6 @@
 {{- define "database_host" -}}
 {{- if .Values.postgresql.install -}}
-  {{ .Release.Name }}-postgresql:5432
+  {{ .Release.Name }}-postgresql
 {{- else -}}
   {{ .Values.postgresql.externalhost }} 
 {{- end -}}
@@ -55,7 +55,7 @@ amqp://{{ .Values.rabbitmq.auth.username }}:{{ .Values.rabbitmq.auth.password }}
   value: "True"
 
 - name: DATABASE_HOST
-  value: {{ .Release.Name }}-postgresql
+  value: {{ include "database_host" .}}
 
 - name: DEBUG
   value: {{ include "boolean2str" .Values.general.debug | quote }}
