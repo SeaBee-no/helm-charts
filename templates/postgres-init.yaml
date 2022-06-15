@@ -5,18 +5,22 @@ metadata:
   namespace: {{ .Release.Namespace }}
 stringData:
   init.sql: |
+    DROP ROLE IF EXISTS "{{ .Values.postgresql.geonodeDb }}";
+    DROP ROLE IF EXISTS "{{ .Values.postgresql.geodataDb }}";
+
     CREATE USER "{{ .Values.postgresql.geonodeDb }}" WITH PASSWORD '{{ .Values.postgresql.password }}';
     CREATE USER "{{ .Values.postgresql.geodataDb }}" WITH PASSWORD '{{ .Values.postgresql.password }}';
 
-    ALTER USER "{{ .Values.postgresql.geonodeDb }}" WITH SUPERUSER;
-    ALTER USER "{{ .Values.postgresql.geodataDb }}" WITH SUPERUSER;
+    SELECT 'CREATE DATABASE {{ .Values.postgresql.geonodeDb }}' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = '{{ .Values.postgresql.geonodeDb }}')\gexec
+    SELECT 'CREATE DATABASE {{ .Values.postgresql.geodataDb }}' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = '{{ .Values.postgresql.geodataDb }}')\gexec
 
-    CREATE DATABASE "{{ .Values.postgresql.geonodeDb }}" OWNER "{{ .Values.postgresql.geonodeDb }}";
-    \c "{{ .Values.postgresql.geonodeDb }}"
-    CREATE EXTENSION postgis;
-    CREATE EXTENSION postgis_topology;
+    GRANT ALL PRIVILEGES ON DATABASE {{ .Values.postgresql.geonodeDb }} TO {{ .Values.postgresql.geonodeDb }};
+    GRANT ALL PRIVILEGES ON DATABASE {{ .Values.postgresql.geodataDb }} TO {{ .Values.postgresql.geodataDb }};
 
-    CREATE DATABASE "{{ .Values.postgresql.geodataDb }}" OWNER "{{ .Values.postgresql.geodataDb }}";
-    \c "{{ .Values.postgresql.geodataDb }}"
-    CREATE EXTENSION postgis;
-    CREATE EXTENSION postgis_topology;
+    \c {{ .Values.postgresql.geonodeDb }}
+    CREATE EXTENSION IF NOT EXISTS postgis;
+    CREATE EXTENSION IF NOT EXISTS postgis_topology;
+
+    \c {{ .Values.postgresql.geodataDb }}
+    CREATE EXTENSION IF NOT EXISTS postgis;
+    CREATE EXTENSION IF NOT EXISTS postgis_topology;
