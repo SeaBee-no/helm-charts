@@ -248,7 +248,7 @@ amqp://{{ .Values.rabbitmq.auth.username }}:{{ .Values.rabbitmq.auth.password }}
 
 # EMAIL Notifications
 - name: EMAIL_ENABLE
-  value: 'False'
+  value: {{ include "boolean2str" .Values.smtp.enable | quote }}
 - name: DJANGO_EMAIL_BACKEND
   value: django.core.mail.backends.smtp.EmailBackend
 - name: DJANGO_EMAIL_HOST

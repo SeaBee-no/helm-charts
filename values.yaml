@@ -110,6 +110,8 @@ general:
   # -- `ClusterIP` / `LoadBalancer` / `NodePort`
   serviceType: ClusterIP
 smtp:
+  # -- Enable email
+  enable: false
   # -- SMTP host name
   host: smtp.gmail.com
   # -- Use TLS?
