@@ -2,10 +2,10 @@
 
 Helm chart for geonode on sigma2. This chart was initially based one the [One Acre Found GeoNode](https://github.com/one-acre-fund/oaf-public-charts) chart.
 The chart contains the following main parts:
-    * Geonode Django, Celery & nginx deployment 
-    * Geoserver deployment
-    * Postgresql statefulset(optional)
-    * Rabbitmq deployment
+* Geonode Django, Celery & nginx deployment 
+* Geoserver deployment
+* Postgresql statefulset(optional)
+* Rabbitmq deployment
 
 # Install
 
