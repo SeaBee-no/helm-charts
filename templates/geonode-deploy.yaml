@@ -178,11 +178,11 @@ spec:
           mountPath: /etc/nginx/conf.d
         resources:
           requests:
-            memory: 128Mi
-            cpu: 100m
+            memory: 250Mi
+            cpu: 250m
           limits:
-            memory: 256Mi
-            cpu: 200m
+            memory: 500Mi
+            cpu: 500m
       volumes:
       - name: nginx-confd
         configMap:
