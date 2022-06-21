@@ -104,11 +104,11 @@ spec:
           mountPath: /tmp
         resources:
           requests:
-            memory: 2Gi
-            cpu: 100m
+            memory: 1Gi
+            cpu: 1
           limits:
             memory: 2Gi
-            cpu: 1000m
+            cpu: 2
         # This one is HORRIBLY SLOW!!!
         # Disabling readiness probe...
         # readinessProbe:
