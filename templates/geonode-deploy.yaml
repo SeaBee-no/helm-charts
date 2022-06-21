@@ -158,10 +158,10 @@ spec:
         # healthcheck: curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8001/
         resources:
           requests:
-            memory: 1Gi
+            memory: 0.5Gi
             cpu: 100m
           limits:
-            memory: 2Gi
+            memory: 1Gi
             cpu: 400m
       - name: nginx
         image: nginx:1.19
