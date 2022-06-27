@@ -294,7 +294,17 @@ server{
       application/x-javascript
       application/json;
 
-  root   /mnt/volumes/statics/;
+  location /uploaded  {
+      alias /mnt/volumes/statics/uploaded/;  # your Django project's media files - amend as required
+      include  /etc/nginx/mime.types;
+      expires 365d;
+  }
+  
+  location /static {
+      alias /mnt/volumes/statics/static/; # your Django project's static files - amend as required
+      include  /etc/nginx/mime.types;
+      expires 365d;
+  }
   # Finally, send all non-media requests to the Django server.
   location / {
       # uwsgi_params
