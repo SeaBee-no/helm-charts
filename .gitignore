@@ -2,3 +2,4 @@
 charts/**
 manifest.yaml
 my-values.yaml
+.vscode/**
