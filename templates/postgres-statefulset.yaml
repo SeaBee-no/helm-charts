@@ -50,12 +50,7 @@ spec:
           image: {{ .Values.postgresql.image }}
           imagePullPolicy: "IfNotPresent"
           resources:
-            requests:
-              cpu: 250m
-              memory: 512Mi
-            limits:
-              cpu: 500m
-              memory: 512Mi
+{{ toYaml .Values.postgresql.resources | indent 11}}
           securityContext:
             runAsUser: {{ .Values.general.uid }}
           env:

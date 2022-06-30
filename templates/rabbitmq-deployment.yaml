@@ -27,12 +27,7 @@ spec:
            - name: configuration
              mountPath: /etc/rabbitmq
         resources:
-          requests:
-            cpu: 1
-            memory: 1Gi
-          limits:
-            cpu: 2
-            memory: 2Gi
+{{toYaml .Values.rabbitmq.resources | indent 11}}
       volumes:
          - name: configuration
            secret:
