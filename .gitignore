@@ -1,5 +1,5 @@
 **/Chart.lock
 charts/**
 manifest.yaml
-my-values.yaml
+my-values*.yaml
 .vscode/**
