@@ -88,14 +88,14 @@ geonode:
         cpu: 100m
       limits:
         memory: 1.5Gi
-        cpu: 400m
+        cpu: 300m
     nginx:
       requests:
         memory: 250Mi
         cpu: 250m
       limits:
         memory: 500Mi
-        cpu: 500m
+        cpu: 250m
 geoserver:
   image:
     # -- `geoserver` image name
