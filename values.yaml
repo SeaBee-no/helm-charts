@@ -77,24 +77,24 @@ geonode:
   resources:
     django:
       requests:
-        memory: 1Gi
+        memory: 1G
         cpu: 1
       limits:
-        memory: 1.5Gi
+        memory: 1.5G
         cpu: 2
     celery:
       requests:
-        memory: 0.75Gi
+        memory: 0.75G
         cpu: 100m
       limits:
-        memory: 1.5Gi
-        cpu: 300m
+        memory: 1.5G
+        cpu: 250m
     nginx:
       requests:
-        memory: 250Mi
+        memory: 0.25G
         cpu: 250m
       limits:
-        memory: 500Mi
+        memory: 0.5G
         cpu: 250m
 geoserver:
   image:
@@ -112,11 +112,11 @@ geoserver:
   extraCustomEPSGs: []
   resources:
     requests:
-      memory: 2Gi
-      cpu: 2000m
+      memory: 2G
+      cpu: 2
     limits:
-      memory: 4Gi
-      cpu: 4000m
+      memory: 4G
+      cpu: 4
 
 general:
   # -- group id also used for fsgroup
@@ -199,10 +199,10 @@ postgresql:
   resources:
     requests:
       cpu: 250m
-      memory: 512Mi
+      memory: 0.5G
     limits:
       cpu: 500m
-      memory: 512Mi
+      memory: 0.5G
 
 rabbitmq:
   auth:
@@ -212,7 +212,7 @@ rabbitmq:
   resources:
     requests:
       cpu: 1
-      memory: 1Gi
+      memory: 1G
     limits:
       cpu: 2
-      memory: 2Gi
+      memory: 2G
