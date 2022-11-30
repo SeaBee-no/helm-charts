@@ -78,7 +78,7 @@ geonode:
     django:
       requests:
         memory: 1G
-        cpu: 1
+        cpu: 200m
       limits:
         memory: 1.5G
         cpu: 2
@@ -113,7 +113,7 @@ geoserver:
   resources:
     requests:
       memory: 2G
-      cpu: 2
+      cpu: 400m
     limits:
       memory: 4G
       cpu: 4
@@ -211,7 +211,7 @@ rabbitmq:
     password: CHANGEMEkhk
   resources:
     requests:
-      cpu: 1
+      cpu: 200m
       memory: 1G
     limits:
       cpu: 2
