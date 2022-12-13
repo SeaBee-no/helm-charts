@@ -124,8 +124,8 @@ spec:
           mountPath: /geoserver_data/data
           subPath: geonode/geoserver-data-dir
         - name: persistence
-          mountPath: /geoserver_data/data/seabee-missions
-          subPath: data/seabee-missions
+          mountPath: /geoserver_data/data/{{ .Release.Name }}-geoserver-data
+          subPath: data/{{ .Release.Name }}-geoserver-data
         readinessProbe:
           tcpSocket:
             port: 8080
