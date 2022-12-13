@@ -126,6 +126,9 @@ spec:
         - name: persistence
           mountPath: /geoserver_data/data/{{ .Release.Name }}-geoserver-data
           subPath: data/{{ .Release.Name }}-geoserver-data
+        - name: persistence
+          mountPath: /backup-restore
+          subPath: data/backup-restore
         readinessProbe:
           tcpSocket:
             port: 8080

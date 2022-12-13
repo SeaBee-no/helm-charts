@@ -95,11 +95,8 @@ spec:
           mountPath: /mnt/volumes/statics
           subPath: geonode/statics
         - name: persistence
-          mountPath: /backup_restore
-          subPath: geonode/backup-restore
-        - name: persistence
-          mountPath: /data
-          subPath: geonode/data
+          mountPath: /backup-restore
+          subPath: data/backup-restore
         - name: cache-volume
           mountPath: /tmp
         resources:
@@ -143,11 +140,8 @@ spec:
           mountPath: /mnt/volumes/statics
           subPath: geonode/statics
         - name: persistence
-          mountPath: /backup_restore
-          subPath: geonode/backup-restore
-        - name: persistence
-          mountPath: /data
-          subPath: geonode/data
+          mountPath: /backup-restore
+          subPath: data/backup-restore
         - name: cache-volume
           mountPath: /tmp
         # healthcheck: curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8001/
