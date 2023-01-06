@@ -80,14 +80,14 @@ geonode:
         memory: 1G
         cpu: 200m
       limits:
-        memory: 1.5G
+        memory: 2G
         cpu: 2
     celery:
       requests:
-        memory: 0.75G
+        memory: 1G
         cpu: 100m
       limits:
-        memory: 1.5G
+        memory: 2G
         cpu: 250m
     nginx:
       requests:
@@ -112,10 +112,10 @@ geoserver:
   extraCustomEPSGs: []
   resources:
     requests:
-      memory: 2G
+      memory: 4G
       cpu: 400m
     limits:
-      memory: 4G
+      memory: 8G
       cpu: 4
 
 general:
@@ -199,10 +199,10 @@ postgresql:
   resources:
     requests:
       cpu: 250m
-      memory: 0.5G
+      memory: 1G
     limits:
-      cpu: 500m
-      memory: 0.5G
+      cpu: 2
+      memory: 2G
 
 rabbitmq:
   auth:
