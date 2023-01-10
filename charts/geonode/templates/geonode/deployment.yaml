@@ -71,6 +71,7 @@ spec:
       # This is the django app server
       - name: geonode
         image: "{{ .Values.geonode.image.name }}:{{ .Values.geonode.image.tag }}"
+        imagePullPolicy: IfNotPresent
         env:
         {{ include "env_general" . | nindent 8 }}
         - name: IS_CELERY
@@ -119,6 +120,7 @@ spec:
       # # Celery is the task worker
       - name: celery
         image: "{{ .Values.geonode.image.name }}:{{ .Values.geonode.image.tag }}"
+        imagePullPolicy: IfNotPresent
         env:
         {{ include "env_general" . | nindent 8 }}
         - name: IS_CELERY
