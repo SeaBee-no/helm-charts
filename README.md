@@ -13,9 +13,9 @@ The chart contains the following main parts:
 Add the repo
 
 ```bash
-helm repo add seabee-charts https://seabee-no.github.io/seabee-geonode-charts
+helm repo add seabee-charts https://seabee-no.github.io/helm-charts
 ```
 
 ```bash
-helm install --namespace seabee-ns9879k -f my-values.yaml seanode seabee-charts/geonode
+helm install --namespace seabee-ns9879k -f my-values.yaml geonode seabee-charts/geonode
 ```
