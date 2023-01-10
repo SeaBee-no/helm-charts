@@ -20,6 +20,7 @@ spec:
       containers:
       - name: rabbitmq
         image: rabbitmq:3.9.3-alpine
+        imagePullPolicy: IfNotPresent
         ports:
           - name: amqp
             containerPort: 5672
