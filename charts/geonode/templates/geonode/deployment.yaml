@@ -151,6 +151,7 @@ spec:
 {{toYaml .Values.geonode.resources.celery | indent 11}}
       - name: nginx
         image: nginx:1.19
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
         volumeMounts:

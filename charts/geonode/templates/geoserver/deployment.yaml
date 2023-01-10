@@ -51,6 +51,7 @@ spec:
       # See https://hub.docker.com/r/geonode/geoserver
       - name: data-dir-conf
         image: geonode/geoserver_data:{{ .Values.geoserver.image.tag }}
+        imagePullPolicy: IfNotPresent
         command:
         - sh
         - -c
@@ -80,6 +81,7 @@ spec:
       containers:
       - name: geoserver
         image: "{{ .Values.geoserver.image.name }}:{{ .Values.geoserver.image.tag }}"
+        imagePullPolicy: IfNotPresent
         command:
         - sh
         - -c
