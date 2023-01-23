@@ -101,7 +101,7 @@ geoserver:
     # -- `geoserver` image name
     name: geonode/geoserver
     # -- `geoserver` image tag
-    tag: "2.18.2"
+    tag: "2.20.5"
   # -- List of custom ESPG definitions to add to Geoserver configuration - see https://docs.geoserver.org/stable/en/user/configuration/crshandling/customcrs.html
   # @default -- Various useful ESPGs
   # -- Password for GeoServer user `admin`

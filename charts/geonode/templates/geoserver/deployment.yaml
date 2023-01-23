@@ -87,7 +87,7 @@ spec:
         - -c
         - |
           echo "###### FIXING GEOSERVER ADMIN PASSWORD ####"
-          ADMIN_ENCRYPTED_PASSWORD=$(/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/bin/java -classpath /usr/local/tomcat/webapps/geoserver/WEB-INF/lib/jasypt-1.9.2.jar org.jasypt.intf.cli.JasyptStringDigestCLI digest.sh algorithm=SHA-256 saltSizeBytes=16 iterations=100000 input="$GEOSERVER_ADMIN_PASSWORD" verbose=0 | tr -d '\n')
+          ADMIN_ENCRYPTED_PASSWORD=$(java -classpath /usr/local/tomcat/webapps/geoserver/WEB-INF/lib/jasypt-1.9.2.jar org.jasypt.intf.cli.JasyptStringDigestCLI digest.sh algorithm=SHA-256 saltSizeBytes=16 iterations=100000 input="$GEOSERVER_ADMIN_PASSWORD" verbose=0 | tr -d '\n')
           sed -i -r "s|<user enabled=\".*\" name=\".*\" password=\".*\"/>|<user enabled=\"true\" name=\"$GEOSERVER_ADMIN_USER\" password=\"digest1:$ADMIN_ENCRYPTED_PASSWORD\"/>|" "/geoserver_data/data/security/usergroup/default/users.xml"
           sed -i -r "s|<userRoles username=\".*\">|<userRoles username=\"$GEOSERVER_ADMIN_USER\">|" "/geoserver_data/data/security/role/default/roles.xml"
           ADMIN_ENCRYPTED_PASSWORD=""
@@ -118,9 +118,22 @@ spec:
         - name: outFormat
           value: text/javascript
         - name: GEOSERVER_JAVA_OPTS
-          value: -Djava.awt.headless=true -Xms2G -Xmx4G -XX:PerfDataSamplingInterval=500 -XX:SoftRefLRUPolicyMSPerMB=36000 -XX:-UseGCOverheadLimit -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:ParallelGCThreads=4 -Dfile.encoding=UTF8 -Djavax.servlet.request.encoding=UTF-8 -Djavax.servlet.response.encoding=UTF-8 -Duser.timezone=GMT -Dorg.geotools.shapefile.datetime=false -DGEOSERVER_CSRF_DISABLED=true -DPRINT_BASE_URL=http://localhost:8080/geoserver/pdf
+          value: -Djava.awt.headless=true -Xms2G -Xmx4G -XX:PerfDataSamplingInterval=500 -XX:SoftRefLRUPolicyMSPerMB=36000 -XX:-UseGCOverheadLimit -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=4 -Dfile.encoding=UTF8 -Djavax.servlet.request.encoding=UTF-8 -Djavax.servlet.response.encoding=UTF-8 -Duser.timezone=GMT -Dorg.geotools.shapefile.datetime=false -DGEOSERVER_CSRF_DISABLED=true -DPRINT_BASE_URL=http://localhost:8080/geoserver/pdf
         - name: NGINX_BASE_URL
           value: "{{ include "public_url" . }}/"
+        - name: DATABASE_HOST
+          value: "{{ include "database_host" . }}"
+        - name: DATABASE_PORT
+          value: "5432"
+        - name: GEONODE_GEODATABASE
+          value: {{ .Values.postgresql.geodataDb | quote }}
+        - name: GEONODE_GEODATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-secrets
+              key: GEONODE_GEODATABASE_PASSWORD
+        - name: GEONODE_GEODATABASE_SCHEMA
+          value: "public"
         volumeMounts:
         - name: persistence
           mountPath: /geoserver_data/data
