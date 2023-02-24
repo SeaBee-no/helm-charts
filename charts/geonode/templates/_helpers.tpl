@@ -153,6 +153,8 @@ amqp://{{ .Values.rabbitmq.auth.username }}:{{ .Values.rabbitmq.auth.password }}
   value: 'False'
 - name: CACHE_BUSTING_MEDIA_ENABLED
   value: 'False'
+- name: CELERY_BEAT_SCHEDULER
+  value: celery.beat:PersistentScheduler
 
 - name: MEMCACHED_ENABLED
   value: 'False'
