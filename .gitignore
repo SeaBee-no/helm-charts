@@ -1,4 +1,4 @@
 **/Chart.lock
 manifest.yaml
-my-values*.yaml
+*-values*.yaml
 .vscode/**
