@@ -22,18 +22,39 @@ spec:
         image: rabbitmq:3.9.3-alpine
         imagePullPolicy: IfNotPresent
         ports:
-          - name: amqp
-            containerPort: 5672
+        - name: amqp
+          containerPort: 5672
+        livenessProbe:
+          exec:
+            # Learn more at https://www.rabbitmq.com/monitoring.html#health-checks.
+            command: ["rabbitmq-diagnostics", "status"]
+          initialDelaySeconds: 60
+          # See https://www.rabbitmq.com/monitoring.html for monitoring frequency recommendations.
+          periodSeconds: 60
+          timeoutSeconds: 15
+        readinessProbe:
+          exec:
+            # Learn more at https://www.rabbitmq.com/monitoring.html#health-checks.
+            command: ["rabbitmq-diagnostics", "check_port_connectivity"]
+          initialDelaySeconds: 20
+          periodSeconds: 60
+          timeoutSeconds: 10
         volumeMounts:
-           - name: configuration
-             mountPath: /etc/rabbitmq
+        - name: configuration
+          mountPath: /etc/rabbitmq
+        - name: persistence
+          mountPath: /var/lib/rabbitmq/mnesia
+          subPath: geonode/rabbitmq
         resources:
 {{toYaml .Values.rabbitmq.resources | indent 11}}
       volumes:
-         - name: configuration
-           secret:
-             secretName: {{ .Release.Name }}-rabbitmq-conf
-             items:
-               - key: rabbitmq.conf
-                 path: rabbitmq.conf
+      - name: configuration
+        secret:
+          secretName: {{ .Release.Name }}-rabbitmq-conf
+          items:
+            - key: rabbitmq.conf
+              path: rabbitmq.conf
+      - name: persistence
+        persistentVolumeClaim:
+          claimName: {{ .Values.storage.claimName }}
  
