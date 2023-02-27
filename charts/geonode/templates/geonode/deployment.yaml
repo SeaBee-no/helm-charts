@@ -8,7 +8,7 @@ spec:
   # This pod can NOT be scaled, because it persists local files
   replicas: 1
   strategy:
-    # Need to kill previous pods before running new ones to avoid double-attaching volumes...
+    # Avoid double runnning the pod incase of few resources
     type: Recreate
   selector:
     matchLabels:
