@@ -91,7 +91,8 @@ spec:
           sed -i -r "s|<user enabled=\".*\" name=\".*\" password=\".*\"/>|<user enabled=\"true\" name=\"$GEOSERVER_ADMIN_USER\" password=\"digest1:$ADMIN_ENCRYPTED_PASSWORD\"/>|" "/geoserver_data/data/security/usergroup/default/users.xml"
           sed -i -r "s|<userRoles username=\".*\">|<userRoles username=\"$GEOSERVER_ADMIN_USER\">|" "/geoserver_data/data/security/role/default/roles.xml"
           ADMIN_ENCRYPTED_PASSWORD=""
-
+          # In case geoserver exposes all env variables!
+          GEOSERVER_ADMIN_PASSWORD=""
           echo "###### FIXING GEOSERVER PUBLIC URL ########"
           sed -i "s#http://geonode:80#{{ include "public_url" . }}#g" /usr/local/tomcat/tmp/entrypoint.sh
           /usr/local/tomcat/tmp/entrypoint.sh
