@@ -91,9 +91,6 @@ spec:
         - name: persistence
           mountPath: /mnt/volumes/statics
           subPath: geonode/statics
-        - name: persistence
-          mountPath: /{{ .Release.Name }}-backup-restore
-          subPath: data/{{ .Release.Name }}-backup-restore
         - name: cache-volume
           mountPath: /tmp
         resources:
