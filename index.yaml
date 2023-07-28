@@ -2,6 +2,22 @@ apiVersion: v1
 entries:
   geonode:
   - apiVersion: v2
+    created: "2023-07-28T07:19:21.301962225Z"
+    description: Geonode - a CMS for Geospatial data
+    digest: abf4f05c1839bf900a78a3c95af8b340f48d98ffa3fd87a1f314c7fb356db3e3
+    home: https://geonode.org/
+    icon: https://pbs.twimg.com/profile_images/1221883359/geonode_400x400.png
+    keywords:
+    - geospatial
+    - gis
+    - cms
+    - maps
+    name: geonode
+    type: application
+    urls:
+    - https://github.com/SeaBee-no/helm-charts/releases/download/geonode-0.1.4/geonode-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
     created: "2023-02-27T12:32:23.009978743Z"
     description: Geonode - a CMS for Geospatial data
     digest: 4b295e1d060ab48d61681230bf723da1c2e32539c0e4482f18d9c290664d3ee1
@@ -65,4 +81,4 @@ entries:
     urls:
     - https://github.com/SeaBee-no/seabee-geonode-charts/releases/download/geonode-0.1.0/geonode-0.1.0.tgz
     version: 0.1.0
-generated: "2023-02-27T12:32:23.009994844Z"
+generated: "2023-07-28T07:19:21.301978325Z"
