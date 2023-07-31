@@ -44,7 +44,7 @@ spec:
         volumeMounts:
         - name: persistence
           mountPath: /geonode
-          subPath: geonode
+          subPath: {{ .Release.Name }}
       containers:
         - name: {{ .Release.Name }}-postgresql
           image: {{ .Values.postgresql.image }}
@@ -120,7 +120,7 @@ spec:
               mountPath: /dev/shm
             - name: persistence
               mountPath: /bitnami/postgresql
-              subPath: geonode/postgresql
+              subPath: {{ .Release.Name }}/postgresql
       volumes:
         - name: custom-init-scripts-secret
           secret:

@@ -44,7 +44,7 @@ spec:
           mountPath: /etc/rabbitmq
         - name: persistence
           mountPath: /var/lib/rabbitmq/mnesia
-          subPath: geonode/rabbitmq
+          subPath: {{ .Release.Name }}/rabbitmq
         resources:
 {{toYaml .Values.rabbitmq.resources | indent 11}}
       volumes:

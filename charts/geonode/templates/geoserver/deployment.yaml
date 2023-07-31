@@ -45,7 +45,7 @@ spec:
         volumeMounts:
         - name: persistence
           mountPath: /geonode
-          subPath: geonode
+          subPath: {{ .Release.Name }}
       # Initialize default data
       # The tag NEEDS to match with the geoserver tag
       # See https://hub.docker.com/r/geonode/geoserver
@@ -75,7 +75,7 @@ spec:
         volumeMounts:
         - name: persistence
           mountPath: /geoserver_data/data
-          subPath: geonode/geoserver-data-dir
+          subPath: {{ .Release.Name }}/geoserver-data-dir
         - name: geoserver-secrets
           mountPath: /secrets
       containers:
@@ -126,6 +126,8 @@ spec:
           value: "{{ include "database_host" . }}"
         - name: DATABASE_PORT
           value: "5432"
+        - name: GEOSERVER_CSRF_WHITELIST
+          value: {{ .Values.general.externalDomain }}
         - name: GEONODE_GEODATABASE
           value: {{ .Values.postgresql.geodataDb | quote }}
         - name: GEONODE_GEODATABASE_PASSWORD
@@ -138,7 +140,7 @@ spec:
         volumeMounts:
         - name: persistence
           mountPath: /geoserver_data/data
-          subPath: geonode/geoserver-data-dir
+          subPath: {{ .Release.Name }}/geoserver-data-dir
         readinessProbe:
           tcpSocket:
             port: 8080
