@@ -81,6 +81,10 @@ amqp://{{ .Values.rabbitmq.auth.username }}:{{ .Values.rabbitmq.auth.password }}
       key: POSTGRES_PASSWORD
 - name: GEONODE_DATABASE
   value: {{ .Values.postgresql.geonodeDb | quote }}
+- name: GEONODE_DATABASE_USER
+  value: {{ .Values.postgresql.geonodeDb | quote }}
+- name: GEONODE_GEODATABASE_USER
+  value: {{ .Values.postgresql.geodataDb | quote }}
 - name: GEONODE_DATABASE_PASSWORD
   valueFrom:
     secretKeyRef:

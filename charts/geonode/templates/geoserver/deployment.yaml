@@ -86,6 +86,9 @@ spec:
         - sh
         - -c
         - |
+          # fix https://github.com/GeoNode/geonode-project/commit/7fb35c73d2a2ea2b870298c36682efe799abac88
+          sed -i 's/db:5432/{{`{{ DATABASE_HOST }}`}}:{{`{{ DATABASE_PORT }}`}}/ig' /geoserver_data/data/geofence/geofence-datasource-ovr.properties.j2
+          
           echo "###### FIXING GEOSERVER ADMIN PASSWORD ####"
           ADMIN_ENCRYPTED_PASSWORD=$(java -classpath /usr/local/tomcat/webapps/geoserver/WEB-INF/lib/jasypt-1.9.2.jar org.jasypt.intf.cli.JasyptStringDigestCLI digest.sh algorithm=SHA-256 saltSizeBytes=16 iterations=100000 input="$GEOSERVER_ADMIN_PASSWORD" verbose=0 | tr -d '\n')
           sed -i -r "s|<user enabled=\".*\" name=\".*\" password=\".*\"/>|<user enabled=\"true\" name=\"$GEOSERVER_ADMIN_USER\" password=\"digest1:$ADMIN_ENCRYPTED_PASSWORD\"/>|" "/geoserver_data/data/security/usergroup/default/users.xml"
