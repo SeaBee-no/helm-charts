@@ -205,6 +205,9 @@ postgresql:
       memory: 2G
 
 rabbitmq:
+  image: 
+    name: rabbitmq
+    tag: "3.9.3-alpine"
   auth:
     username: user
     # Override these!

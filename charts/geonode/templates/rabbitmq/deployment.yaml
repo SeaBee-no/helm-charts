@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: rabbitmq
-        image: rabbitmq:3.9.3-alpine
+        image: "{{ .Values.rabbitmq.image.name }}:{{ .Values.rabbitmq.image.tag }}"
         imagePullPolicy: IfNotPresent
         ports:
         - name: amqp
