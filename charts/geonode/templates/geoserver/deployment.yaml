@@ -50,7 +50,7 @@ spec:
       # The tag NEEDS to match with the geoserver tag
       # See https://hub.docker.com/r/geonode/geoserver
       - name: data-dir-conf
-        image: geonode/geoserver_data:{{ .Values.geoserver.image.tag }}
+        image: {{ .Values.geoserver.image.name }}_data:{{ .Values.geoserver.image.tag }}
         imagePullPolicy: IfNotPresent
         command:
         - sh
