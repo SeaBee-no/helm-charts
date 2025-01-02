@@ -136,7 +136,19 @@ spec:
           subPath: {{ .Release.Name }}/statics
         - name: cache-volume
           mountPath: /tmp
-        # healthcheck: curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8001/
+        livenessProbe:
+          exec:
+            command: [
+              "celery",
+              "-A",
+              "geonode.celery_app:app",
+              "inspect",
+              "ping"
+            ]
+          initialDelaySeconds: 1800
+          # See https://www.rabbitmq.com/monitoring.html for monitoring frequency recommendations.
+          periodSeconds: 600
+          timeoutSeconds: 15
         resources:
 {{toYaml .Values.geonode.resources.celery | indent 11}}
       - name: nginx
