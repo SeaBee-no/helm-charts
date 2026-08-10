@@ -31,7 +31,7 @@ spec:
       # Resolving some hardcoded links...
       initContainers:
       - name: busybox
-        image: registry.uninett.no/public/busybox:1.33.1-glibc
+        image: busybox:1.38-glibc
         imagePullPolicy: IfNotPresent
         securityContext:
           runAsUser: {{ .Values.general.uid }}
